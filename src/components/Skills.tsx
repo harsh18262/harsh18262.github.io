@@ -10,6 +10,54 @@ const Skills: React.FC = () => {
   })
 
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null)
+  const [secretCode, setSecretCode] = useState<string[]>([])
+  const [showSequenceHint, setShowSequenceHint] = useState(false)
+
+  // Easter egg: Click skills in order K-D-T-A
+  const handleSkillClick = (skillName: string) => {
+    const firstLetter = skillName[0].toUpperCase()
+    const newCode = [...secretCode, firstLetter].slice(-4)
+    setSecretCode(newCode)
+    
+    // Show visual feedback
+    const clickedElement = event?.target as HTMLElement
+    const row = clickedElement?.closest('.skill-row')
+    if (row) {
+      row.classList.add('bg-terminal-green/20')
+      setTimeout(() => row.classList.remove('bg-terminal-green/20'), 300)
+    }
+    
+    // Check if pattern matches
+    if (newCode.join('') === 'KDTA') {
+      console.log('%c🏆 Master of Infrastructure unlocked!', 'color: #FFD700; font-size: 20px;')
+      
+      // Success animation
+      const elements = document.querySelectorAll('.skill-row')
+      elements.forEach((el, i) => {
+        setTimeout(() => {
+          el.classList.add('animate-pulse', 'bg-terminal-green/10')
+          setTimeout(() => el.classList.remove('animate-pulse', 'bg-terminal-green/10'), 1000)
+        }, i * 100)
+      })
+      
+      // Show achievement notification
+      const notification = document.createElement('div')
+      notification.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-terminal-green/20 border border-terminal-green px-6 py-4 rounded-lg z-50'
+      notification.innerHTML = `
+        <div class="text-terminal-green font-bold text-lg mb-1">🏆 Infrastructure Master!</div>
+        <div class="text-terminal-green/80 text-sm">You've discovered the secret sequence!</div>
+      `
+      document.body.appendChild(notification)
+      setTimeout(() => notification.remove(), 3000)
+      
+      setSecretCode([])
+    } else if (newCode.length === 4 && newCode.join('') !== 'KDTA') {
+      // Wrong sequence - reset
+      setSecretCode([])
+      setShowSequenceHint(true)
+      setTimeout(() => setShowSequenceHint(false), 2000)
+    }
+  }
 
   const skills = [
     { name: 'Kubernetes/EKS', status: 'Running', replicas: '3/3', cpu: 95, category: 'orchestration', icon: Container },
@@ -63,6 +111,18 @@ const Skills: React.FC = () => {
           $ kubectl get skills --output=wide
         </motion.h2>
 
+        {/* Sequence hint */}
+        {showSequenceHint && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-4 text-terminal-amber text-sm"
+          >
+            💡 Hint: Try the infrastructure stack order...
+          </motion.div>
+        )}
+
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
@@ -88,9 +148,10 @@ const Skills: React.FC = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={inView ? { opacity: 1, x: 0 } : {}}
                     transition={{ delay: 0.3 + index * 0.05, duration: 0.4 }}
-                    className="border-b border-terminal-green/10 hover:bg-terminal-green/5 transition-all cursor-pointer"
+                    className="border-b border-terminal-green/10 hover:bg-terminal-green/5 transition-all cursor-pointer skill-row"
                     onMouseEnter={() => setHoveredSkill(skill.name)}
                     onMouseLeave={() => setHoveredSkill(null)}
+                    onClick={() => handleSkillClick(skill.name)}
                   >
                     <td className="py-3 flex items-center gap-2">
                       <skill.icon className="w-4 h-4 text-terminal-green/70" />
@@ -140,7 +201,7 @@ const Skills: React.FC = () => {
                 {'  '}<span className="yaml-key">name</span>: <span className="yaml-value">{hoveredSkill.toLowerCase().replace(/\s+/g, '-')}</span>{'\n'}
                 <span className="yaml-key">spec</span>:{'\n'}
                 {'  '}<span className="yaml-key">proficiency</span>: <span className="yaml-value">expert</span>{'\n'}
-                {'  '}<span className="yaml-key">experience</span>: <span className="yaml-value">2+ years</span>{'\n'}
+                {'  '}<span className="yaml-key">experience</span>: <span className="yaml-value">3+ years</span>{'\n'}
                 {'  '}<span className="yaml-key">status</span>: <span className="yaml-value">active</span>
               </pre>
             </motion.div>

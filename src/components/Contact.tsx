@@ -21,7 +21,7 @@ const Contact: React.FC = () => {
   // REPLACE THIS WITH YOUR FORMSPREE ENDPOINT
   // Sign up at https://formspree.io and create a form
   // You'll get an endpoint like: https://formspree.io/f/YOUR_FORM_ID
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mrgnegor' // <-- REPLACE WITH YOUR FORMSPREE URL
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID' // <-- REPLACE WITH YOUR FORMSPREE URL
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -61,10 +61,137 @@ const Contact: React.FC = () => {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
+      [e.target.name]: value
+    });
+
+    // Easter egg: Type "you're hired" in any field
+    if (value.toLowerCase().includes("you're hired") || value.toLowerCase().includes("you are hired")) {
+      console.log('%c🎉 Amazing news! Thank you for the opportunity!', 'color: #FFD700; font-size: 16px;');
+      
+      // Create confetti container
+      const confettiContainer = document.createElement('div');
+      confettiContainer.id = 'confetti-container';
+      confettiContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+      `;
+      document.body.appendChild(confettiContainer);
+      
+      // Create multiple confetti pieces
+      const colors = ['#00FF00', '#00FFFF', '#FFB000', '#BD93F9', '#FF79C6'];
+      const confettiCount = 50;
+      
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const size = Math.random() * 10 + 5;
+        const startX = Math.random() * window.innerWidth;
+        const startY = -20;
+        const endX = startX + (Math.random() - 0.5) * 200;
+        const endY = window.innerHeight + 20;
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 0.5;
+        
+        confetti.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          background: ${color};
+          left: ${startX}px;
+          top: ${startY}px;
+          opacity: 0;
+          animation: confetti-fall ${duration}s ${delay}s ease-out forwards;
+        `;
+        
+        confettiContainer.appendChild(confetti);
+      }
+      
+      // Add animation styles if not exists
+      if (!document.querySelector('#confetti-style')) {
+        const style = document.createElement('style');
+        style.id = 'confetti-style';
+        style.textContent = `
+          @keyframes confetti-fall {
+            0% {
+              transform: translateY(0) rotate(0deg);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(${window.innerHeight + 40}px) rotate(720deg);
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      // Show special message
+      const message = document.createElement('div');
+      message.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+        border: 2px solid #00FF00;
+        padding: 30px 40px;
+        border-radius: 10px;
+        z-index: 10000;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+        animation: message-pop 0.5s ease-out;
+      `;
+      message.innerHTML = `
+        <h2 style="color: #00FF00; font-size: 24px; margin-bottom: 10px; font-family: monospace;">🎆 BEST. NEWS. EVER! 🎆</h2>
+        <p style="color: #00FFFF; font-size: 16px; margin-bottom: 5px;">I'm incredibly excited to join your team!</p>
+        <p style="color: #FFB000; font-size: 14px;">Let's build amazing things together! 🚀</p>
+      `;
+      
+      if (!document.querySelector('#message-style')) {
+        const msgStyle = document.createElement('style');
+        msgStyle.id = 'message-style';
+        msgStyle.textContent = `
+          @keyframes message-pop {
+            0% {
+              transform: translate(-50%, -50%) scale(0);
+              opacity: 0;
+            }
+            50% {
+              transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+              transform: translate(-50%, -50%) scale(1);
+              opacity: 1;
+            }
+          }
+        `;
+        document.head.appendChild(msgStyle);
+      }
+      
+      document.body.appendChild(message);
+      
+      // Clean up
+      setTimeout(() => {
+        confettiContainer.remove();
+        message.remove();
+      }, 5000);
+      
+      // Reset the field to prevent multiple triggers
+      setTimeout(() => {
+        setFormData({
+          ...formData,
+          [e.target.name]: value.replace(/you're hired|you are hired/gi, '')
+        });
+      }, 100);
+    }
   }
 
   return (

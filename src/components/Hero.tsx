@@ -6,6 +6,8 @@ import { TypeAnimation } from 'react-type-animation'
 const Hero: React.FC = () => {
   const [showCursor, setShowCursor] = useState(true)
   const [mounted, setMounted] = useState(false)
+  const [longHover, setLongHover] = useState(false)
+  let hoverTimer: NodeJS.Timeout
 
   useEffect(() => {
     setMounted(true)
@@ -42,6 +44,22 @@ const Hero: React.FC = () => {
   return (
     <section id="whoami" className="min-h-screen flex items-center justify-center relative px-4 sm:px-6 lg:px-8 pt-16 overflow-x-hidden">
       <div className="text-center z-10 max-w-4xl mx-auto">
+        {/* Hidden ASCII art click area */}
+        <div 
+          className="absolute inset-0 z-20" 
+          onClick={(e) => {
+            // Check if clicked on ASCII art area
+            const rect = e.currentTarget.getBoundingClientRect();
+            const y = e.clientY - rect.top;
+            if (y < 200) { // Rough estimate of ASCII art height
+              console.log('%c🎯 You found the ASCII secret!', 'color: #00FF00; font-size: 16px;');
+              document.body.style.transform = 'rotateY(180deg)';
+              setTimeout(() => {
+                document.body.style.transform = '';
+              }, 1000);
+            }
+          }}
+        />
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

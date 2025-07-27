@@ -3,6 +3,10 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Activity, Cloud, Zap, CheckCircle, TrendingUp, BarChart3, Users, DollarSign } from 'lucide-react'
 
+interface MetricState {
+  [key: string]: boolean
+}
+
 const Metrics: React.FC = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -10,6 +14,7 @@ const Metrics: React.FC = () => {
   })
 
   const [mounted, setMounted] = useState(false)
+  const [clickedMetrics, setClickedMetrics] = useState<MetricState>({})
   const [animatedValues, setAnimatedValues] = useState({
     costReduction: 0,
     teamsSupported: 0,
@@ -23,6 +28,14 @@ const Metrics: React.FC = () => {
     network: 82,
     requests: 1250
   })
+
+  const handleMetricClick = (metricLabel: string) => {
+    setClickedMetrics(prev => ({ ...prev, [metricLabel]: !prev[metricLabel] }))
+    // Reset after 3 seconds
+    setTimeout(() => {
+      setClickedMetrics(prev => ({ ...prev, [metricLabel]: false }))
+    }, 3000)
+  }
 
   // Fix hydration
   useEffect(() => {
@@ -77,7 +90,9 @@ const Metrics: React.FC = () => {
       unit: '%',
       subtitle: '$2M+ saved annually',
       icon: DollarSign,
-      color: 'terminal-green'
+      color: 'terminal-green',
+      originalText: '75% ($2M+ saved annually)',
+      funnyText: '∞% (Priceless savings!)'
     },
     {
       label: 'Teams Supported',
@@ -85,7 +100,9 @@ const Metrics: React.FC = () => {
       unit: '+',
       subtitle: 'Across ZS Associates',
       icon: Users,
-      color: 'terminal-cyan'
+      color: 'terminal-cyan',
+      originalText: '150+ teams',
+      funnyText: '∞ Happy Teams!'
     },
     {
       label: 'Deployment Efficiency',
@@ -93,7 +110,9 @@ const Metrics: React.FC = () => {
       unit: '%',
       subtitle: '2.5hr → 15min',
       icon: Zap,
-      color: 'terminal-purple'
+      color: 'terminal-purple',
+      originalText: '90% faster',
+      funnyText: 'Speed of Light!'
     },
     {
       label: 'Recovery Time',
@@ -101,7 +120,9 @@ const Metrics: React.FC = () => {
       unit: 'hr',
       subtitle: 'vs 27 days benchmark',
       icon: CheckCircle,
-      color: 'terminal-amber'
+      color: 'terminal-amber',
+      originalText: '24hr recovery',
+      funnyText: 'Time Travel Mode!'
     }
   ]
 
@@ -125,16 +146,20 @@ const Metrics: React.FC = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
-              className={`terminal-window p-4 hover:border-${metric.color}/50 transition-all hover-glow`}
+              className={`terminal-window p-4 hover:border-${metric.color}/50 transition-all hover-glow cursor-pointer`}
+              onClick={() => handleMetricClick(metric.label)}
+              data-metric="true"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-gray-400 text-sm">{metric.label}</span>
                 <metric.icon className={`w-4 h-4 text-${metric.color}`} />
               </div>
               <div className={`text-2xl font-bold text-${metric.color}`}>
-                {metric.value}{metric.unit}
+                {clickedMetrics[metric.label] ? metric.funnyText : `${metric.value}${metric.unit}`}
               </div>
-              <div className="text-xs text-gray-500">{metric.subtitle}</div>
+              <div className="text-xs text-gray-500">
+                {clickedMetrics[metric.label] ? '100% Coffee Dependent!' : metric.subtitle}
+              </div>
             </motion.div>
           ))}
         </div>
