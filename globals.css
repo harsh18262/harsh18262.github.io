@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --terminal-green: #00FF00;
+    --terminal-cyan: #00FFFF;
+    --terminal-amber: #FFB000;
+    --terminal-purple: #BD93F9;
+    --terminal-pink: #FF79C6;
+    --matrix-green: #00FF41;
+  }
+
+  body {
+    @apply bg-dark-bg text-terminal-green;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-terminal-green/50 rounded-full;
+    transition: background-color 0.3s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-terminal-green/70;
+  }
+}
+
+@layer components {
+  .terminal-window {
+    @apply bg-gray-900/50 backdrop-blur-sm border border-terminal-green/30 rounded-lg;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+  }
+
+  .terminal-prompt {
+    @apply text-terminal-green font-mono;
+  }
+
+  .terminal-prompt::before {
+    content: '$ ';
+    @apply text-terminal-cyan;
+  }
+
+  .glass-morphism {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  .neon-glow {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+
+  .kubectl-command {
+    @apply font-mono text-sm bg-black/50 px-2 py-1 rounded border border-terminal-green/30;
+  }
+
+  .pod-status {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .pod-status.running {
+    @apply text-terminal-green;
+  }
+
+  .yaml-syntax {
+    @apply font-mono text-xs;
+  }
+
+  .yaml-key {
+    @apply text-terminal-cyan;
+  }
+
+  .yaml-value {
+    @apply text-terminal-amber;
+  }
+
+  .matrix-bg {
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 0, 0.03) 2px,
+        rgba(0, 255, 0, 0.03) 4px
+      );
+  }
+
+  .scan-line {
+    @apply absolute w-full h-px bg-terminal-green/20;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+  }
+}
+
+@layer utilities {
+  .animate-float-delay-1 {
+    animation-delay: 0.5s;
+  }
+
+  .animate-float-delay-2 {
+    animation-delay: 1s;
+  }
+
+  .animate-float-delay-3 {
+    animation-delay: 1.5s;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-terminal-green to-terminal-cyan bg-clip-text text-transparent;
+  }
+}
+
+/* ASCII Art Font */
+@font-face {
+  font-family: 'ASCII';
+  src: url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+}
