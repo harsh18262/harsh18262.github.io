@@ -200,8 +200,8 @@ const Skills: React.FC = () => {
                 <span className="yaml-key">metadata</span>:{'\n'}
                 {'  '}<span className="yaml-key">name</span>: <span className="yaml-value">{hoveredSkill.toLowerCase().replace(/\s+/g, '-')}</span>{'\n'}
                 <span className="yaml-key">spec</span>:{'\n'}
-                {'  '}<span className="yaml-key">proficiency</span>: <span className="yaml-value">expert</span>{'\n'}
-                {'  '}<span className="yaml-key">experience</span>: <span className="yaml-value">3+ years</span>{'\n'}
+                {'  '}<span className="yaml-key">proficiency</span>: <span className="yaml-value">Intermediate</span>{'\n'}
+                {'  '}<span className="yaml-key">experience</span>: <span className="yaml-value">2+ years</span>{'\n'}
                 {'  '}<span className="yaml-key">status</span>: <span className="yaml-value">active</span>
               </pre>
             </motion.div>
