@@ -16,8 +16,7 @@
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-intersection-observer": "^9.13.1",
-    "react-type-animation": "^3.2.0",
-    "visitorapi": "^2.0.0"
+    "react-type-animation": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "^22",

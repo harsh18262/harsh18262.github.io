@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/components/StaticVisitorTracker.js"  ],
   "exclude": [
     "node_modules"
   ]

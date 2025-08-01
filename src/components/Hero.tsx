@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ChevronDown, Download, Mail } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { TypeAnimation } from 'react-type-animation'
-// import { triggerVisitorAPI } from '../utils/visitorAPI';
+
 
 const Hero: React.FC = () => {
   const [showCursor, setShowCursor] = useState(true)
@@ -10,7 +10,6 @@ const Hero: React.FC = () => {
 
   useEffect(() => {
     setMounted(true)
-    // triggerVisitorAPI('RU4Jrp2a4QVvAbypiceL');
     const timer = setInterval(() => {
       setShowCursor(prev => !prev)
     }, 500)
