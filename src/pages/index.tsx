@@ -13,6 +13,7 @@ import Footer from '@/components/Footer'
 import TerminalGame from '@/components/EasterEgg/TerminalGame'
 import SecretElements from '@/components/EasterEgg/SecretElements'
 import ResponsiveEasterEggs from '@/components/EasterEgg/ResponsiveEasterEggs'
+import VisitorTracker from '@/components/StaticVisitorTracker';
 
 export default function Home() {
   // Add source code comment
@@ -38,6 +39,8 @@ export default function Home() {
       <TerminalGame />
       <SecretElements />
       <ResponsiveEasterEggs />
+      <VisitorTracker />
+
     </>
   )
 }
