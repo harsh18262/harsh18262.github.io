@@ -13,7 +13,7 @@ const Projects: React.FC = () => {
 
   const projects = [
     {
-      name: 'Alterigo Multi-tenant Platform',
+      name: 'Multi-tenant Platform on EKS',
       icon: Container,
       color: 'terminal-cyan',
       description: 'Architected scalable multi-tenant EKS infrastructure supporting 50 tenants with 15 GenAI microservices. Implemented one-click tenant deployment using Terraform custom modules.',

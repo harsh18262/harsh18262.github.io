@@ -290,3 +290,58 @@
     opacity: 1;
   }
 }
+
+
+/* Ensure buttons are clickable */
+a, button {
+  position: relative;
+  z-index: 10;
+}
+
+/* Fix any potential overlay issues */
+section {
+  position: relative;
+}
+
+/* Ensure no invisible overlays */
+div[class*="absolute"]:not([class*="pointer-events-none"]) {
+  pointer-events: auto;
+}
+
+/* Prevent layout shift and distortion during hydration */
+.matrix-bg {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Ensure consistent canvas rendering */
+canvas {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+}
+
+/* Prevent animation issues on load */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-matrix-rain,
+  .animate-float,
+  .animate-scan-line {
+    animation-play-state: paused;
+  }
+  
+  .animate-matrix-rain.loaded,
+  .animate-float.loaded,
+  .animate-scan-line.loaded {
+    animation-play-state: running;
+  }
+}
+
+/* Specific fix for Hero buttons */
+#whoami a {
+  position: relative !important;
+  z-index: 50 !important;
+}

@@ -147,7 +147,7 @@ const Metrics: React.FC = () => {
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
               className={`terminal-window p-4 hover:border-${metric.color}/50 transition-all hover-glow cursor-pointer`}
-              onClick={() => handleMetricClick(metric.label)}
+              onHoverStart={() => handleMetricClick(metric.label)}
               data-metric="true"
             >
               <div className="flex items-center justify-between mb-2">

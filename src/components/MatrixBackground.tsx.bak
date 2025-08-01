@@ -15,84 +15,38 @@ const MatrixRainCanvas: React.FC = () => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Set canvas size with device pixel ratio for crisp rendering
+    // Set canvas size
     const resizeCanvas = () => {
-      const dpr = window.devicePixelRatio || 1
-      const rect = canvas.getBoundingClientRect()
-      
-      // Set display size
-      canvas.style.width = rect.width + 'px'
-      canvas.style.height = rect.height + 'px'
-      
-      // Set actual size in memory (scaled up for retina displays)
-      canvas.width = rect.width * dpr
-      canvas.height = rect.height * dpr
-      
-      // Scale all drawing operations by the dpr
-      ctx.scale(dpr, dpr)
-      
-      // Reset drops array when canvas is resized
-      const columns = rect.width / fontSize
-      drops.length = 0
-      for (let x = 0; x < columns; x++) {
-        drops[x] = Math.floor(Math.random() * -100)
-      }
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
     }
+    resizeCanvas()
 
     const matrix = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ(){}[]<>?!@#$%^&*'
     const matrixArray = matrix.split('')
 
     const fontSize = 10
-    const drops: number[] = []
+    const columns = canvas.width / fontSize
 
-    // Initial resize
-    resizeCanvas()
+    const drops: number[] = []
+    for (let x = 0; x < columns; x++) {
+      drops[x] = Math.floor(Math.random() * -100)
+    }
 
     let animationId: number
-    let lastTime = 0
-    const targetFPS = 30 // Limit to 30 FPS for better performance
 
-    const draw = (currentTime: number) => {
-      // Throttle to target FPS
-      if (currentTime - lastTime < 1000 / targetFPS) {
-        animationId = requestAnimationFrame(draw)
-        return
-      }
-      lastTime = currentTime
-
-      const rect = canvas.getBoundingClientRect()
-      
-      // Create trailing effect
+    const draw = () => {
       ctx.fillStyle = `rgba(10, 10, 10, ${0.04 * intensityRef.current})`
-      ctx.fillRect(0, 0, rect.width, rect.height)
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Set text properties
       ctx.fillStyle = '#00FF00'
       ctx.font = fontSize + 'px monospace'
-      ctx.textAlign = 'left'
-      ctx.textBaseline = 'top'
 
-      // Draw characters
-      const columns = Math.floor(rect.width / fontSize)
-      
-      for (let i = 0; i < columns; i++) {
-        // Make sure drops array is properly sized
-        if (typeof drops[i] === 'undefined') {
-          drops[i] = Math.floor(Math.random() * -100)
-        }
-        
+      for (let i = 0; i < drops.length; i++) {
         const text = matrixArray[Math.floor(Math.random() * matrixArray.length)]
-        const x = i * fontSize
-        const y = drops[i] * fontSize
-        
-        // Add glow effect for characters
-        ctx.shadowBlur = 8
-        ctx.shadowColor = '#00FF00'
-        ctx.fillText(text, x, y)
-        ctx.shadowBlur = 0
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize)
 
-        // Reset drop to top when it goes off screen
-        if (drops[i] * fontSize > rect.height && Math.random() > 0.975) {
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0
         }
 
@@ -102,18 +56,10 @@ const MatrixRainCanvas: React.FC = () => {
       animationId = requestAnimationFrame(draw)
     }
 
-    // Start animation
-    animationId = requestAnimationFrame(draw)
+    draw()
 
     // Event listeners
-    const handleResize = () => {
-      // Debounce resize to prevent excessive redraws
-      clearTimeout((window as any).resizeTimeout)
-      ;(window as any).resizeTimeout = setTimeout(() => {
-        resizeCanvas()
-      }, 250)
-    }
-    
+    const handleResize = () => resizeCanvas()
     const handleMatrixIntensify = () => {
       intensityRef.current = 3
       setMatrixIntensity(3)
@@ -130,21 +76,16 @@ const MatrixRainCanvas: React.FC = () => {
       cancelAnimationFrame(animationId)
       window.removeEventListener('resize', handleResize)
       window.removeEventListener('matrixIntensify', handleMatrixIntensify)
-      clearTimeout((window as any).resizeTimeout)
     }
   }, [])
 
   return (
     <canvas
       ref={canvasRef}
-      className={`fixed inset-0 w-full h-full pointer-events-none transition-opacity duration-1000 ${
+      className={`fixed top-0 left-0 w-full h-full z-0 transition-opacity duration-1000 ${
         matrixIntensity > 1 ? 'opacity-70' : 'opacity-30'
       }`}
-      style={{ 
-        background: '#0A0A0A',
-        zIndex: 0,
-        isolation: 'isolate' // Prevent blend mode issues
-      }}
+      style={{ background: '#0A0A0A' }}
     />
   )
 }
@@ -169,18 +110,13 @@ const MatrixBackground: React.FC = () => {
     }))
     setParticles(newParticles)
 
-    // Check screen size and matrix mode
+    // Check screen size
     const checkScreenSize = () => {
-      const isLargeScreen = window.innerWidth > 768
-      const urlParams = new URLSearchParams(window.location.search)
-      const isMatrixMode = urlParams.get('theme') === 'matrix'
-      
-      setShowCanvas(isLargeScreen || isMatrixMode)
+      setShowCanvas(window.innerWidth > 768)
     }
     
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
-    window.addEventListener('popstate', checkScreenSize) // Listen for URL changes
 
     // Easter egg listener
     const handleMatrixMode = () => {
@@ -190,7 +126,6 @@ const MatrixBackground: React.FC = () => {
 
     return () => {
       window.removeEventListener('resize', checkScreenSize)
-      window.removeEventListener('popstate', checkScreenSize)
       window.removeEventListener('matrixIntensify', handleMatrixMode)
     }
   }, [mounted])
@@ -201,11 +136,11 @@ const MatrixBackground: React.FC = () => {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+    <>
       {showCanvas ? (
         <MatrixRainCanvas />
       ) : (
-        <div className="fixed inset-0 overflow-hidden">
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
           {/* Matrix rain effect */}
           <div className="absolute inset-0 opacity-10 matrix-bg animate-matrix-rain" />
           
@@ -238,7 +173,7 @@ const MatrixBackground: React.FC = () => {
           />
         </div>
       )}
-    </div>
+    </>
   )
 }
 

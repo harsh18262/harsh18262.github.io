@@ -12,7 +12,7 @@ const Achievements: React.FC = () => {
   const achievements = [
     {
       date: '2024-2025',
-      title: 'Multi-tenant EKS Architect - Alterigo',
+      title: 'Multi-tenant EKS Architect',
       description: 'Designed scalable multi-tenant EKS setup for 50 tenants with 15 GenAI microservices using ArgoCD and Helm',
       impact: '75% cost reduction per tenant with one-click deployment',
       color: 'terminal-cyan'
