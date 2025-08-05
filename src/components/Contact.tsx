@@ -21,7 +21,7 @@ const Contact: React.FC = () => {
   // REPLACE THIS WITH YOUR FORMSPREE ENDPOINT
   // Sign up at https://formspree.io and create a form
   // You'll get an endpoint like: https://formspree.io/f/YOUR_FORM_ID
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID' // <-- REPLACE WITH YOUR FORMSPREE URL
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mrgnegor' // <-- REPLACE WITH YOUR FORMSPREE URL
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
