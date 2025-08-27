@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - nextjs 
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
