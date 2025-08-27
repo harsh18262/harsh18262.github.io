@@ -3,7 +3,7 @@ name: Next.js Static Export to Main
 on:
   push:
     branches:
-      - nextjs # Replace with your working branch
+      - nextjs 
 
 jobs:
   build-and-deploy:
@@ -38,8 +38,9 @@ jobs:
 
       - name: Copy exported files
         run: |
-          rsync -av --delete out/ ./
+          rsync -av --delete --exclude ./out out/ ./
           touch .nojekyll
+          rm -rf out
           git add .
           git commit -m "Update static files from out directory [skip ci]" || echo "No changes to commit"
 
