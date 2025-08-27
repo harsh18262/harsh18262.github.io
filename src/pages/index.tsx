@@ -5,6 +5,7 @@ import Skills from '@/components/Skills'
 import Homelab from '@/components/Homelab'
 import Achievements from '@/components/Achievements'
 import Projects from '@/components/Projects'
+import Certifications from '@/components/Certifications'
 import Metrics from '@/components/Metrics'
 import Contact from '@/components/Contact'
 import Navigation from '@/components/Navigation'
@@ -31,6 +32,7 @@ export default function Home() {
         <Skills />
         <Homelab />
         <Achievements />
+        <Certifications />
         <Projects />
         <Metrics />
         <Contact />

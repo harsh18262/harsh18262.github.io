@@ -13,6 +13,7 @@ const Navigation: React.FC = () => {
     { name: 'skills', label: 'Skills' },
     { name: 'homelab', label: 'Homelab' },
     { name: 'achievements', label: 'Career' },
+    { name: 'certifications', label: 'Certs' },
     { name: 'projects', label: 'Projects' },
     { name: 'metrics', label: 'Impact' },
     { name: 'contact', label: 'Contact' },
