@@ -40,12 +40,13 @@ jobs:
 
       - name: Remove all except .git
         run: |
-          find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name 'out' ! -name 'Old_site'  -exec rm -rf {} +
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name 'out' -exec rm -rf {} +
 
       - name: Copy exported files to root
         run: |
           cp -a out/. ./
           touch .nojekyll
+          rm -rf out
           git add .
           git commit -m "Update static files from out directory [skip ci]" || echo "No changes to commit"
 
