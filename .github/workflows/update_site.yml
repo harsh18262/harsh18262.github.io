@@ -1,0 +1,47 @@
+name: Next.js Static Export to Main
+
+on:
+  push:
+    branches:
+      - nextjs # Replace with your working branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.6.0'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and export
+        run: |
+          npm run build
+         # npm run export
+
+      - name: Configure git user
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Switch to main branch
+        run: git checkout main
+
+      - name: Copy exported files
+        run: |
+          rsync -av --delete out/ ./
+          touch .nojekyll
+          git add .
+          git commit -m "Update static files from out directory [skip ci]" || echo "No changes to commit"
+
+      - name: Push changes
+        run: git push origin main
