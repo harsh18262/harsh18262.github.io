@@ -131,14 +131,14 @@ const Projects: React.FC = () => {
             </motion.div>
           ))}
         </div>
-        {/* Infrastructure as Code showcase
+        Infrastructure as Code showcase
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.6, duration: 0.6 }}
           className="mt-8 terminal-window p-6"
         >
-          <h3 className="text-xl text-terminal-cyan mb-4">Infrastructure as Code - Alterigo Multi-tenant</h3>
+          <h3 className="text-xl text-terminal-cyan mb-4">Infrastructure as Code - Multi-tenant Application</h3>
           <div className="bg-black/50 rounded p-4 font-mono text-sm overflow-x-auto">
             <pre className="text-terminal-green">
 {`# Terraform configuration for multi-tenant EKS
@@ -174,7 +174,7 @@ module "tenant_infrastructure" {
 }`}
             </pre>
           </div>
-        </motion.div> */}
+        </motion.div>
       </div>
     </section>
   )

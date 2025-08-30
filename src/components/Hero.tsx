@@ -182,7 +182,7 @@ const Hero: React.FC = () => {
       {/* Floating kubectl commands - hidden on mobile for better UX */}
       {mounted && (
         <div className="hidden lg:block absolute inset-0 overflow-hidden pointer-events-none z-0">
-          {['kubectl get nodes', 'terraform apply', 'helm install alterigo', 'docker build --multi-stage'].map((cmd, i) => (
+          {['kubectl get nodes', 'terraform apply', 'helm install myapp', 'docker build --multi-stage'].map((cmd, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: -100 }}
