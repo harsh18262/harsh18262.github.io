@@ -7,7 +7,7 @@ import { useInView } from 'react-intersection-observer'
 const certificationsData = [
   {
     id: 1,
-    name: 'Certified Kubernetes Administrator',
+    name: 'CKA: Certified Kubernetes Administrator',
     issuer: 'Linux Foundation',
     issueDate: 'August 2025',
     expiryDate: 'August 2027',
@@ -15,6 +15,18 @@ const certificationsData = [
     badgeImageUrl: 'https://images.credly.com/images/8b8ed108-e77d-4396-ac59-2504583b9d54/cka_from_cncfsite__281_29.png', // Replace with actual image URL
     credentialUrl: 'https://www.credly.com/badges/21cf20f8-790a-40bb-ae13-ca03a1a707ad/public_url',
     description: 'Demonstrates ability to design distributed systems on Kubernetes',
+    status: 'Active'
+  },
+  {
+    id: 2,
+    name: 'CKAD: Certified Kubernetes Application Developer',
+    issuer: 'Linux Foundation',
+    issueDate: 'August 2025',
+    expiryDate: 'August 2027',
+    // Get this URL by right-clicking on your Credly badge image and copying the image address
+    badgeImageUrl: 'https://images.credly.com/images/cc8adc83-1dc6-4d57-8e20-22171247e052/blob', // Replace with actual image URL
+    credentialUrl: 'https://www.credly.com/badges/0bcfcda8-e0e5-42b5-91a1-7cf3467ca267/public_url',
+    description: 'Demonstrates the skills, knowledge and competencies to perform the responsibilities of a Kubernetes Application Developer',
     status: 'Active'
   }
   // {
